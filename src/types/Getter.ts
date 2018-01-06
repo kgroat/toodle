@@ -12,9 +12,9 @@ export interface Getter<S, O> {
 export type Getters<S> = ReadonlyFlatMap<Getter<S, any>>
 
 export type ReaderGetter<S, G extends ReadonlyFlatMap<Getter<S, any>>> = {
-  [P in keyof G]: () => G[P]['defaultVal']
+  [P in keyof G]: () => DeepReadonly<G[P]['defaultVal']>
 }
 
 export type ObserverGetter<S, G extends ReadonlyFlatMap<Getter<S, any>>> = {
-  [P in keyof G]: Observable<G[P]['defaultVal']>
+  [P in keyof G]: Observable<DeepReadonly<G[P]['defaultVal']>>
 }
