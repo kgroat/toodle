@@ -1,0 +1,27 @@
+{
+  "transform": {
+    "\\.(ts|tsx)$": "ts-jest/preprocessor.js"
+  },
+  "testRegex": "__tests__/.*\\.spec\\.(ts|tsx)$",
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "json"
+  ],
+  "cacheDirectory": "jestCache",
+  "globals": {
+    "__DEV__": true,
+    "ts-jest": {
+      "tsConfigFile": "tsconfig.json"
+    }
+  },
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "**/*.{ts,tsx}",
+    "!**/index.{ts,tsx}",
+    "!**/*.story.tsx",
+    "!**/types/*.ts",
+    "!**/*.d.ts"
+  ]
+}
