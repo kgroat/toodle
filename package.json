@@ -4,6 +4,7 @@
   "description": "A new functional state manager",
   "main": "index.js",
   "scripts": {
+    "prepare": "tsc",
     "test": "jest --config jest.json"
   },
   "files": [
