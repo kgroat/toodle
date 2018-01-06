@@ -11,10 +11,16 @@ export interface Module<S, M extends Mutators<S> = {}, G extends Getters<S> = {}
   readonly getters: G
 }
 
+export interface StateCallback<S> {
+  (state: DeepReadonly<S>): void
+}
+
 export type ReaderModule<S, M extends Mutators<S>, G extends Getters<S>> = {
   readonly mutators: ReaderMutator<S, M>
   readonly getters: ReaderGetter<S, G>
   readonly getState: () => DeepReadonly<S>
+  readonly onChange: (state: StateCallback<S>) => void
+  readonly offChange: (state: StateCallback<S>) => void
 }
 
 export type ObserverModule<S, M extends Mutators<S>, G extends Getters<S>> = {
