@@ -1,0 +1,38 @@
+{
+  "name": "toodle",
+  "version": "0.0.0",
+  "description": "A new functional state manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kgroat/toodle.git"
+  },
+  "keywords": [
+    "functional",
+    "react",
+    "state"
+  ],
+  "author": "kgroat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kgroat/toodle/issues"
+  },
+  "homepage": "https://github.com/kgroat/toodle#readme",
+  "devDependencies": {
+    "@types/uuid": "^3.4.3",
+    "rxjs": "^5.5.6",
+    "typescript": "^2.6.2"
+  },
+  "peerDependencies": {
+    "rxjs": ">=5.0.0"
+  },
+  "dependencies": {
+    "uuid": "^3.1.0"
+  }
+}
