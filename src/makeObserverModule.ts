@@ -36,7 +36,13 @@ export function makeObserverModule<S, M extends Mutators<S>, G extends Getters<S
   Object.keys(mod.mutators).forEach(key => {
     const mutator = mod.mutators[key]
     mutators[key] = (opts = mutator.defaultOptions) => {
+      const oldState = state
       state = mutator.mutate(state, opts)
+
+      if (!shallowDiffers(oldState, state)) {
+        return
+      }
+
       Object.values(mainSubs).forEach(sub => {
         sub.next(state)
       })

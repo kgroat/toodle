@@ -7,7 +7,7 @@ export interface Mutator<S, O> {
   defaultOptions?: O
 }
 
-export type Mutators<S> = ReadonlyFlatMap<Mutator<S, any>>
+export interface Mutators<S> extends ReadonlyFlatMap<Mutator<S, any>> {}
 
 export type ReaderMutator<S, M extends ReadonlyFlatMap<Mutator<S, any>>> = {
   [P in keyof M]: (opts: M[P]['defaultOptions']) => void

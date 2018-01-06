@@ -9,7 +9,7 @@ export interface Getter<S, O> {
   defaultVal?: O
 }
 
-export type Getters<S> = ReadonlyFlatMap<Getter<S, any>>
+export interface Getters<S> extends ReadonlyFlatMap<Getter<S, any>> {}
 
 export type ReaderGetter<S, G extends ReadonlyFlatMap<Getter<S, any>>> = {
   [P in keyof G]: () => DeepReadonly<G[P]['defaultVal']>
