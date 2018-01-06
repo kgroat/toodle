@@ -2,7 +2,7 @@
   "name": "toodle",
   "version": "0.0.0",
   "description": "A new functional state manager",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest"
   },
