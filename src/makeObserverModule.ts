@@ -17,11 +17,11 @@ import {
 import { shallowDiffers } from './shallow'
 
 type GetterVals<S, G extends Getters<S>> = {
-  [P in keyof G]: G[P]['default']
+  [P in keyof G]: G[P]['defaultVal']
 }
 
 type GetterSubscribers<S, G extends Getters<S>> = {
-  [P in keyof G]: FlatMap<Subscriber<G[P]['default']>>
+  [P in keyof G]: FlatMap<Subscriber<G[P]['defaultVal']>>
 }
 
 export function makeObserverModule<S, M extends Mutators<S>, G extends Getters<S>> (mod: Module<S, M, G>): ObserverModule<S, M, G> {
@@ -40,6 +40,7 @@ export function makeObserverModule<S, M extends Mutators<S>, G extends Getters<S
       Object.values(mainSubs).forEach(sub => {
         sub.next(state)
       })
+      
       Object.keys(getterSubs).forEach(getterName => {
         const getter = mod.getters[getterName]
         const oldVal = previousGetterVals[getterName]
@@ -58,7 +59,7 @@ export function makeObserverModule<S, M extends Mutators<S>, G extends Getters<S
   const getterKeys = Object.keys(mod.getters) as (keyof G)[]
   getterKeys.forEach(key => {
     const getter = mod.getters[key]
-    const subs = getterSubs[key] = {} as FlatMap<Subscriber<G[typeof key]['default']>>
+    const subs = getterSubs[key] = {} as FlatMap<Subscriber<G[typeof key]['defaultVal']>>
     previousGetterVals[key] = getter.get(state)
 
     getters[key] = new Observable((sub) => {

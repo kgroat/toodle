@@ -2,12 +2,14 @@
   "name": "toodle",
   "version": "0.0.1-0",
   "description": "A new functional state manager",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },
   "files": [
-    "dist"
+    "dist",
+    "index.js",
+    "index.d.ts"
   ],
   "repository": {
     "type": "git",
