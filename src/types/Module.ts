@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable'
 
 import { DeepReadonly } from './DeepReadonly'
 import { Mutators, ReaderMutator, AsyncMutators, ReaderAsyncMutator } from './Mutator'
-import { Getters, ReaderGetter, ObserverGetter } from './Getter'
+import { Getters, ObserverGetter } from './Getter'
 
 export interface Module<S, M extends Mutators<S> = {}, G extends Getters<S> = {}, A extends AsyncMutators<S, M> = {}> {
   readonly state: S

@@ -4,7 +4,7 @@ import { getter } from '../makeGetter'
 describe('getter', () => {
   it('should return a getter whose `get` function is the one passed in', () => {
     const expected = jest.fn()
-    const actual = getter(expected)
+    const actual = getter<any, any>(expected)
     expect(actual.get).toBe(expected)
   })
 

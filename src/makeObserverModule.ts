@@ -7,7 +7,6 @@ import {
   DeepReadonly,
   FlatMap,
   Module,
-  Getter,
   Getters,
   Mutators,
   AsyncMutators,
@@ -19,10 +18,6 @@ import {
 
 import { shallowDiffers } from './shallow'
 import { nextTick } from './nextTick';
-
-type GetterVals<S, G extends Getters<S>> = {
-  [P in keyof G]: G[P]['defaultVal']
-}
 
 interface GetterSubscriber<O, V> {
   sub: Subscriber<V>
