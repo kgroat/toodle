@@ -7,6 +7,7 @@ import {
   DeepReadonly,
   FlatMap,
   Module,
+  Getter,
   Getters,
   Mutators,
   AsyncMutators,
@@ -23,8 +24,14 @@ type GetterVals<S, G extends Getters<S>> = {
   [P in keyof G]: G[P]['defaultVal']
 }
 
+interface GetterSubscriber<O, V> {
+  sub: Subscriber<V>
+  opts: O
+  prev: V
+}
+
 type GetterSubscribers<S, G extends Getters<S>> = {
-  [P in keyof G]: FlatMap<Subscriber<G[P]['defaultVal']>>
+  [P in keyof G]: FlatMap<GetterSubscriber<G[P]['defaultOptions'], G[P]['defaultVal']>>
 }
 
 export function makeObserverModule<S, M extends Mutators<S>, G extends Getters<S>, A extends AsyncMutators<S, M>> (mod: Module<S, M, G, A>): ObserverModule<S, M, G, A> {
@@ -33,7 +40,6 @@ export function makeObserverModule<S, M extends Mutators<S>, G extends Getters<S
   const readerAsyncMutators = {} as ReaderAsyncMutator<S, A, M>
   let state = mod.state as any as DeepReadonly<S>
 
-  const previousGetterVals = {} as GetterVals<S, G>
   const getterSubs = {} as GetterSubscribers<S, G>
   const mainSubs = {} as FlatMap<Subscriber<DeepReadonly<S>>>
 
@@ -57,16 +63,16 @@ export function makeObserverModule<S, M extends Mutators<S>, G extends Getters<S
         
         Object.keys(getterSubs).forEach(getterName => {
           const getter = getters[getterName]
-          const oldVal = previousGetterVals[getterName]
-          const newVal = getter.get(newState)
-          previousGetterVals[getterName] = newVal
-  
-          if (!shallowDiffers(oldVal, newVal)) {
-            return
-          }
           
           Object.values(getterSubs[getterName]).forEach(sub => {
-            sub.next(newVal)
+            const { prev, opts } = sub
+            const newVal = getter.get(newState, opts)
+            sub.prev = newVal
+    
+            if (!shallowDiffers(prev, newVal)) {
+              return
+            }
+            sub.sub.next(newVal)
           })
         })
       })
@@ -84,13 +90,17 @@ export function makeObserverModule<S, M extends Mutators<S>, G extends Getters<S
   const getterKeys = Object.keys(getters) as (keyof G)[]
   getterKeys.forEach(key => {
     const getter = getters[key]
-    const subs = getterSubs[key] = {} as FlatMap<Subscriber<G[typeof key]['defaultVal']>>
-    previousGetterVals[key] = getter.get(state)
+    const subs = getterSubs[key] = {} as FlatMap<GetterSubscriber<G[typeof key]['defaultOptions'], G[typeof key]['defaultVal']>>
 
-    observerGetters[key] = new Observable((sub) => {
+    observerGetters[key] = (opts: G[typeof key]['defaultOptions'] = getter.defaultOptions) => new Observable((sub) => {
       const subId = uuid()
-      subs[subId] = sub
-      sub.next(getter.get(state))
+      const val = getter.get(state, opts)
+      sub.next(val)
+      subs[subId] = {
+        sub,
+        opts,
+        prev: val,
+      }
 
       return () => {
         delete subs[subId]

@@ -4,9 +4,9 @@ import {
   DeepReadonly,
 } from './types'
 
-export function getter<S, O = {}> (get: (state: DeepReadonly<S>) => O, defaultVal?: O): Getter<S, O> {
+export function getter<S, V, O = {}> (get: (state: DeepReadonly<S>, opts: O) => V, defaultOptions: O): Getter<S, O, V> {
   return {
     get,
-    defaultVal,
+    defaultOptions,
   }
 }
