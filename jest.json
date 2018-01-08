@@ -2,7 +2,7 @@
   "transform": {
     "\\.(ts|tsx)$": "ts-jest/preprocessor.js"
   },
-  "testRegex": "__tests__/.*\\.spec\\.(ts|tsx)$",
+  "testRegex": "src/.*__tests__/.*\\.(ts|tsx)$",
   "moduleFileExtensions": [
     "ts",
     "tsx",

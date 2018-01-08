@@ -8,9 +8,9 @@ describe('getter', () => {
     expect(actual.get).toBe(expected)
   })
 
-  it('should return a getter whose `defaultVal` is the one passed in', () => {
+  it('should return a getter whose `defaultOptions` is the one passed in', () => {
     const expected = {}
     const actual = getter(jest.fn(), expected)
-    expect(actual.defaultVal).toBe(expected)
+    expect(actual.defaultOptions).toBe(expected)
   })
 })
