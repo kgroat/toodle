@@ -2,6 +2,7 @@
 import {
   AsyncMutator,
   ReaderMutator,
+  Mutators,
   Mutator,
   DeepReadonly,
 } from './types'
@@ -13,7 +14,7 @@ export function mutator<S, O> (mutate: (state: DeepReadonly<S>, options: O) => D
   }
 }
 
-export function asyncMutator<S, O, M extends ReaderMutator<S, any>> (mutate: (mutators: M, options: O) => void, defaultOptions?: O): AsyncMutator<S, O, M> {
+export function asyncMutator<S, O, M extends Mutators<S>> (mutate: (mutators: ReaderMutator<S, M>, options: O) => void, defaultOptions?: O): AsyncMutator<S, O, ReaderMutator<S, M>> {
   return {
     mutate,
     defaultOptions,
